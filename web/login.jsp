@@ -13,6 +13,7 @@
         <link href="Content/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="Scripts/jquery/jquery-3.5.1.js" type="text/javascript"></script>
         <script src="Scripts/bootstrap/bootstrap.js" type="text/javascript"></script>
+        <script src="Scripts/jswebapp/login.js" type="text/javascript"></script>        
     </head>
     <body>
         <div class="card">
@@ -20,18 +21,21 @@
                 LOGIN
             </div>
             <div class="card-body">
-                <form method="post" action="AutenticacionController">
+                <form id="formlogin" method="post" action="AutenticacionController">
                     <div class="form-group">
                         <label for="txtusuario">Email address</label>
-                        <input type="text" class="form-control" name="txtusuario" id="txtusuario">                
+                        <input type="text" class="form-control" name="txtusuario" id="txtusuario">
+                        <span id="erroremail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="txtpassword">Password</label>
                         <input type="password" class="form-control" name="txtpassword" id="txtpassword">
+                        <span id="errorpassword" class="text-danger"></span>
                     </div>
-                    <button type="submit" class="btn btn-danger">Ingresar</button>
+                    <button type="button" id="btnlogin" class="btn btn-danger">Ingresar</button>
                 </form>
             </div>
         </div> 
+        
     </body>
 </html>
