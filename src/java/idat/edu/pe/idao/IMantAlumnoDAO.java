@@ -6,6 +6,7 @@
 package idat.edu.pe.idao;
 
 import idat.edu.pe.model.Alumno;
+import idat.edu.pe.model.NotaAlumno;
 import java.util.List;
 
 /**
@@ -13,5 +14,8 @@ import java.util.List;
  * @author luis_
  */
 public interface IMantAlumnoDAO {
-    public List<Alumno> ListarAlumnos(); 
+    public List<Alumno> ListarAlumnos();
+    public Alumno ObtenerAlumno(String idalumno);
+    public List<NotaAlumno> ListarNotasCurso(String idalumno);
+    
 }

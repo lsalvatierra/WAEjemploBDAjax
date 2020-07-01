@@ -23,6 +23,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="ListarAlumnosController">Alumnos</a>
                     <a class="dropdown-item" href="ListarCursosController">Cursos</a>
+                    <a class="dropdown-item" href="NotaAlumnoController">Cursos Matrículados</a>
                 </div>
             </li> 
             <li class="nav-item dropdown">

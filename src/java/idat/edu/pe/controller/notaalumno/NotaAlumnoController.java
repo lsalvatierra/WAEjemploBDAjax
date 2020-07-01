@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package idat.edu.pe.controller;
+package idat.edu.pe.controller.notaalumno;
 
 import idat.edu.pe.dao.MantAlumnoDAO;
 import idat.edu.pe.model.Alumno;
+import idat.edu.pe.model.NotaAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,10 +23,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author luis_
  */
-@WebServlet(name = "AutenticacionController", urlPatterns = {"/AutenticacionController"})
-public class AutenticacionController extends HttpServlet {
+@WebServlet(name = "NotaAlumnoController", urlPatterns = {"/NotaAlumnoController"})
+public class NotaAlumnoController extends HttpServlet {
 
-   
+    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -37,7 +40,12 @@ public class AutenticacionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession sesion = request.getSession();
+        Alumno objalumno = (Alumno)sesion.getAttribute("usuarioalumno");
+        List<NotaAlumno> lstnotacurso = new MantAlumnoDAO().ListarNotasCurso(objalumno.getIdAlumno());
+        request.setAttribute("lstnotacurso", lstnotacurso);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaNotaCurso.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -51,21 +59,7 @@ public class AutenticacionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession sesion = request.getSession();
-        String usuario = request.getParameter("txtusuario");
-        String password = request.getParameter("txtpassword");
-        String vista = "/login.jsp";
-        Alumno objalumno = new MantAlumnoDAO().ObtenerAlumno(usuario);        
-        if(objalumno != null){
-            vista = "/home.jsp";
-            sesion.setAttribute("usuarioalumno", objalumno);            
-        }else{
-            request.setAttribute("msglogin", "Usuario o password incorrecto.");
-        }
-        //hacemos la instancia a RequestDispatcher para invocar a la vista a utilizar
-        RequestDispatcher transferir = request.getRequestDispatcher(vista);
-        //ejecutamos la transferencia
-        transferir.forward(request, response);
+        
     }
 
     /**
