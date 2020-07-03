@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3f4862de-b412-4c73-8217-6df0c4de451d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Text Body"/>
+	<parameter name="par_idalumno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[	SELECT c.NomCurso, c.Credito, n.ExaParcial, n.ExaFinal FROM notas n
+	INNER JOIN curso c ON n.IdCurso = c.IdCurso 
+	WHERE n.IdAlumno = $P{par_idalumno}]]>
+	</queryString>
+	<field name="NomCurso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Credito" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ExaParcial" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ExaFinal" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="226" y="24" width="162" height="30" uuid="17b52e69-8347-45a7-b897-e64c14b5529f"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Hola mundo]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="0" width="100" height="20" uuid="f2ca62c6-0efd-46ea-a532-bad8176f692b"/>
+				<text><![CDATA[NomCurso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="2" width="100" height="20" uuid="9b41a50a-bd89-4d8f-839d-0088920a36e3"/>
+				<text><![CDATA[Credito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="2" width="100" height="20" uuid="34cd724f-aa81-42e4-b3aa-708a051a31a7"/>
+				<text><![CDATA[ExaParcial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="2" width="100" height="20" uuid="ff5e6362-9459-47e0-8961-269cbb6ccefb"/>
+				<text><![CDATA[ExaFinal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="16" y="4" width="100" height="20" uuid="cc4fb9d6-5bc9-4d2a-a79a-f6d3667d297e"/>
+				<textFieldExpression><![CDATA[$F{NomCurso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="4" width="100" height="20" uuid="3da5c213-71e7-4671-9188-f86dbf73b0d3"/>
+				<textFieldExpression><![CDATA[$F{Credito}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="4" width="100" height="20" uuid="6b84808b-1c9c-4f61-9406-d2c828b3cf0c"/>
+				<textFieldExpression><![CDATA[$F{ExaParcial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="447" y="4" width="100" height="20" uuid="89f7ae0e-b975-4ffa-bac0-a83d7ee8ad67"/>
+				<textFieldExpression><![CDATA[$F{ExaFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

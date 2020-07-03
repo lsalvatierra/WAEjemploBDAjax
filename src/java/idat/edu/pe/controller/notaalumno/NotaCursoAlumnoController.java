@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package idat.edu.pe.controller.curso;
+package idat.edu.pe.controller.notaalumno;
 
 import com.google.gson.Gson;
+import idat.edu.pe.dao.MantAlumnoDAO;
 import idat.edu.pe.dao.MantCursoDAO;
+import idat.edu.pe.model.Alumno;
 import idat.edu.pe.model.Curso;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,10 +25,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author luis_
  */
-@WebServlet(name = "ListarCursosController", urlPatterns = {"/ListarCursosController"})
-public class ListarCursosController extends HttpServlet {
+@WebServlet(name = "NotaCursoAlumnoController", urlPatterns = {"/NotaCursoAlumnoController"})
+public class NotaCursoAlumnoController extends HttpServlet {
 
-
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -39,10 +42,10 @@ public class ListarCursosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Curso> lstcursos = new MantCursoDAO().ListarCursos();
-        request.setAttribute("lstcursos", lstcursos);
+        List<Alumno> lstalumno = new MantAlumnoDAO().ListarAlumnos();
+        request.setAttribute("lstalumno", lstalumno);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaNotaCursoxAlumno.jsp");
-        dispatcher.forward(request, response);        
+        dispatcher.forward(request, response);         
     }
 
     /**
@@ -57,12 +60,14 @@ public class ListarCursosController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Gson gson = new Gson();
-        String resjson = gson.toJson(new MantCursoDAO().ListarCursos());
+        BufferedReader reader = request.getReader();
+        Alumno objalumno = new Gson().fromJson(reader, Alumno.class);        
+        String resjson = gson.toJson(new MantAlumnoDAO().ListarNotasCurso(objalumno.getIdAlumno()));
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         out.print(resjson);
-        out.flush();
+        out.flush();        
     }
 
     /**

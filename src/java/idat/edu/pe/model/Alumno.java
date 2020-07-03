@@ -20,6 +20,14 @@ public class Alumno {
     public Alumno() {
     }
 
+    public Alumno(String IdAlumno, String ApeAlumno, String NomAlumno) {
+        this.IdAlumno = IdAlumno;
+        this.ApeAlumno = ApeAlumno;
+        this.NomAlumno = NomAlumno;
+    }
+    
+    
+
     public Alumno(String IdAlumno, String ApeAlumno, String NomAlumno, String IdEspecialidad, String Procedencia, String NomEspecialidad) {
         this.IdAlumno = IdAlumno;
         this.ApeAlumno = ApeAlumno;

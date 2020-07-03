@@ -32,6 +32,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="FormCurso.jsp">Registrar Curso</a>
+                    <a class="dropdown-item" href="NotaCursoAlumnoController">Reporte de notas x Alumno</a>
                 </div>
             </li>                    
         </ul>

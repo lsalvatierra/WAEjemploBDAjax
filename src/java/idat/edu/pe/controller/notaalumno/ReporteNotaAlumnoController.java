@@ -3,29 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package idat.edu.pe.controller.curso;
+package idat.edu.pe.controller.notaalumno;
 
-import com.google.gson.Gson;
-import idat.edu.pe.dao.MantCursoDAO;
-import idat.edu.pe.model.Curso;
+import idat.edu.pe.bd.BDConnection;
+import idat.edu.pe.model.Alumno;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+
 
 /**
  *
  * @author luis_
  */
-@WebServlet(name = "ListarCursosController", urlPatterns = {"/ListarCursosController"})
-public class ListarCursosController extends HttpServlet {
+@WebServlet(name = "ReporteNotaAlumnoController", urlPatterns = {"/ReporteNotaAlumnoController"})
+public class ReporteNotaAlumnoController extends HttpServlet {
 
-
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -39,10 +47,25 @@ public class ListarCursosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Curso> lstcursos = new MantCursoDAO().ListarCursos();
-        request.setAttribute("lstcursos", lstcursos);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaNotaCursoxAlumno.jsp");
-        dispatcher.forward(request, response);        
+        String idalumno = request.getParameter("idalumno");
+        File reporte = new File(request.getServletContext().getRealPath("reportenotas.jasper"));
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("par_idalumno", idalumno);
+        BDConnection coneBD = new BDConnection();
+        Connection con = coneBD.EstablecerConexion();
+        try {
+            byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(), parametros, con);
+            response.setContentType("application/pdf");
+            response.setContentLength(bytes.length);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(bytes, 0, bytes.length);
+            outputStream.flush();
+            outputStream.close();
+            
+        } catch (JRException ex) {
+            Logger.getLogger(ReporteNotaAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -56,13 +79,7 @@ public class ListarCursosController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Gson gson = new Gson();
-        String resjson = gson.toJson(new MantCursoDAO().ListarCursos());
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(resjson);
-        out.flush();
+        
     }
 
     /**
