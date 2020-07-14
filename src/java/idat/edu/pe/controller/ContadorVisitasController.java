@@ -3,17 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package idat.edu.pe.controller.notaalumno;
+package idat.edu.pe.controller;
 
-import com.google.gson.Gson;
-import idat.edu.pe.dao.MantAlumnoDAO;
-import idat.edu.pe.dao.MantCursoDAO;
-import idat.edu.pe.model.Alumno;
-import idat.edu.pe.model.Curso;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author luis_
  */
-@WebServlet(name = "NotaCursoAlumnoController", urlPatterns = {"/NotaCursoAlumnoController"})
-public class NotaCursoAlumnoController extends HttpServlet {
+@WebServlet(name = "ContadorVisitasController", urlPatterns = {"/ContadorVisitasController"})
+public class ContadorVisitasController extends HttpServlet {
 
-    
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -43,33 +36,25 @@ public class NotaCursoAlumnoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Alumno> lstalumno = new MantAlumnoDAO().ListarAlumnos();
-        response.addCookie(ContadorVisita(request.getCookies()));
-        request.setAttribute("lstalumno", lstalumno);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaNotaCursoxAlumno.jsp");
-        dispatcher.forward(request, response);         
-    }
-
-    public Cookie ContadorVisita(Cookie[] pcokies){
-        String scuenta = null; 
+        String contrepalumno = "0"; 
+        String contmantcurso = "0"; 
         //obtener el valor del cookie
-        Cookie[] cookies = pcokies;        
+        Cookie[] cookies = request.getCookies();        
         if(cookies != null){
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("cont.reportealumno")) {
-                    scuenta = cookie.getValue();
-                }
+                    contrepalumno = cookie.getValue();
+                } else if(cookie.getName().equals("cont.mantcurso")){
+                    contmantcurso = cookie.getValue();
+                }                
             }
         }        
-        Integer contador = 1;
-        if(scuenta != null){
-            contador = Integer.parseInt(scuenta)+1;
-        }
-        Cookie coockieclient = new Cookie("cont.reportealumno", contador.toString());
-        return coockieclient;
+        request.setAttribute("contrepalumno", contrepalumno);
+        request.setAttribute("contmantcurso", contmantcurso);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/VerVisitas.jsp");
+        dispatcher.forward(request, response);   
     }
-    
-    
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -81,15 +66,7 @@ public class NotaCursoAlumnoController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Gson gson = new Gson();
-        BufferedReader reader = request.getReader();
-        Alumno objalumno = new Gson().fromJson(reader, Alumno.class);        
-        String resjson = gson.toJson(new MantAlumnoDAO().ListarNotasCurso(objalumno.getIdAlumno()));
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(resjson);
-        out.flush();        
+        
     }
 
     /**

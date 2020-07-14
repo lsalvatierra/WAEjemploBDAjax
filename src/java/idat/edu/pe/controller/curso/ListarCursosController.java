@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +41,33 @@ public class ListarCursosController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Curso> lstcursos = new MantCursoDAO().ListarCursos();
+        //Contando visita.
+        response.addCookie(ContadorVisita(request.getCookies()));
         request.setAttribute("lstcursos", lstcursos);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaNotaCursoxAlumno.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListaCursos.jsp");
         dispatcher.forward(request, response);        
     }
 
+    public Cookie ContadorVisita(Cookie[] pcokies){
+        String scuenta = null; 
+        //obtener el valor del cookie
+        Cookie[] cookies = pcokies;        
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("cont.mantcurso")) {
+                    scuenta = cookie.getValue();
+                }
+            }
+        }        
+        Integer contador = 1;
+        if(scuenta != null){
+            contador = Integer.parseInt(scuenta)+1;
+        }
+        Cookie coockieclient = new Cookie("cont.mantcurso", contador.toString());
+        return coockieclient;
+    }
+    
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

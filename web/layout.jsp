@@ -21,8 +21,8 @@
                     Listados
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="ListarAlumnosController">Alumnos</a>
-                    <a class="dropdown-item" href="ListarCursosController">Cursos</a>
+                    <!--<a class="dropdown-item" href="ListarAlumnosController">Alumnos</a>-->
+                    <a class="dropdown-item" href="ContadorVisitasController">Visitas</a>
                     <a class="dropdown-item" href="NotaAlumnoController">Cursos Matrículados</a>
                 </div>
             </li> 
@@ -31,7 +31,7 @@
                     Mantenimientos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="FormCurso.jsp">Registrar Curso</a>
+                    <a class="dropdown-item" href="ListarCursosController">Registrar Curso</a>
                     <a class="dropdown-item" href="NotaCursoAlumnoController">Reporte de notas x Alumno</a>
                 </div>
             </li>                    
